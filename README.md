@@ -2,7 +2,7 @@
 
 [![Npm package version](https://badgen.net/npm/v/express)](https://npmjs.com/package/express) [![GitHub](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com) [![made-for-VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)](https://code.visualstudio.com/) [![JavaScript](https://img.shields.io/badge/--F7DF1E?logo=javascript&logoColor=000)](https://www.javascript.com/)
 
-Ova aplikacija podstiče korisnike da sade drveće i prate svoje aktivnosti sadnje putem objave na platformi. 🌍
+Plantree aplikacija podstiče korisnike da sade drveće i prate svoje aktivnosti sadnje putem objave na platformi. 🌍
 
 # Sadržaj
 
