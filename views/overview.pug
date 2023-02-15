@@ -1,0 +1,543 @@
+extends base
+
+block append head
+  script(defer src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer)  
+  script(src="./js/overview.js", defer, type='module') 
+  style(type="text/css").
+    :root {
+      --marquee-width: 100%;
+      --marquee-height: 60px;
+      /* --marquee-elements: 12; */ /* defined with JavaScript */
+      --marquee-elements-displayed: 3;
+      --marquee-element-width: calc(
+        var(--marquee-width) / var(--marquee-elements-displayed)
+      );
+      --marquee-animation-duration: calc(var(--marquee-elements) * 3s);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 2rem 0;
+      width: 100%;
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+      z-index: 21;
+      background-color: #36402c;
+      justify-content: space-between;
+      padding-left: 10rem;
+      padding-right: 10rem;
+      margin-bottom: 4rem;
+    }
+
+    .header__buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .header-content > img {
+      height: 5rem;
+      width: 5rem;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+    }
+
+    .header-content > p {
+      font-size: 2rem;
+      color: white;
+    }
+
+    .header-logo {
+      width: 6rem;
+      height: 6rem;
+      filter: invert(100%);
+    }
+
+    .button__post {
+      border-radius: 20px;
+      border: 1px solid #98b66e;
+      background-color: #98b66e;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      width: auto;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 80ms ease-in;
+      cursor: pointer;
+    }
+
+    .button__post:active {
+      transform: scale(0.9);
+    }
+
+    .container {
+      margin: 0 auto;
+      width: 80%;
+      display: grid;
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-auto-rows: 1fr;
+      column-gap: 6rem;
+      row-gap: 4rem;
+    }
+
+    .container__card {
+      width: 100%;
+      height: 60rem;
+      overflow: hidden;
+      border-radius: 15px 15px 0 15px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+      cursor: pointer;
+      transition: 0.2s transform ease-in-out;
+    }
+
+    .container__card > img {
+      width: 100%;
+      height: 100%;
+      object-position: center;
+      object-fit: cover;
+    }
+
+
+    .container__card-create {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      height: 10rem;
+      width: 10rem;
+      align-self: center;
+      justify-self: center;
+      border-radius: 50%;
+      transition: 80ms transform linear;
+      box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .container__card-create:active{
+      transform: scale(0.9);
+     }
+    .container__card-create>img {
+      object-fit: contain;
+      height: 50%;
+      width: 50%;
+      object-position: auto;
+    }
+
+    .container__card:hover {
+      transform: scale(1.05);
+    }
+
+    .container__overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 100%;
+      transition: 0.5s all ease-in-out;
+      pointer-events: none;
+      justify-content: center;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      z-index: 79;
+      display: flex;
+      align-items: center;
+    }
+
+    .post__page {
+      width: 90rem;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      border-radius: 15px 15px 0 15px;
+      justify-content: center;
+      padding: 4rem;
+    }
+
+    .post__page > form {
+      display: flex;
+      align-items: left;
+      justify-content: center;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .post__page textarea {
+      background-color: #f2f2f2;
+    }
+
+    .active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .container__pay {
+      width: 100%;
+      padding: 7rem 10rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+    }
+
+    .pay__content {
+      width: 100%;
+      background-color: #f3f3f3;
+      padding: 5rem;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    }
+
+    .pay__image {
+      width: 100%;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+      height: 100%;
+    }
+
+    .pay__image > img {
+      width: 100%;
+      border-radius: 15px 0 0 15px;
+      object-fit: cover;
+      object-position: center;
+      height: 100%;
+    }
+    
+    .pay__content{
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      align-items: end;
+      justify-content: center;
+    }
+
+    .pay__content > p {
+      font-size: 2rem;
+      color: #36402c;
+    }
+    .pay__content>#paypal{
+      padding: 0 5rem
+    }
+    .pay__content>#paypal>img{
+      height: 5rem;
+    }
+
+    .pay__button-box {
+      width: 100%;
+      display: flex;
+      justify-content: right;
+      padding: 0 10rem;
+    }
+    .pay__button-box > a {
+      background-color: #36402c;
+      border: none;
+    }
+
+    .marquee {
+      width: var(--marquee-width);
+      height: var(--marquee-height);
+      background-color: #36402c;
+      color: #eee;
+      overflow: hidden;
+      position: relative;
+      margin-top: 5rem;
+      margin-bottom: 5rem;
+    }
+    .marquee:before,
+    .marquee:after {
+      position: absolute;
+      top: 0;
+      width: 10rem;
+      height: 100%;
+      content: '';
+      z-index: 1;
+    }
+    .marquee:before {
+      left: 0;
+      background: linear-gradient(to right, #36402c 0%, transparent 100%);
+    }
+    .marquee:after {
+      right: 0;
+      background: linear-gradient(to left, #36402c 0%, transparent 100%);
+    }
+    .marquee-content {
+      list-style: none;
+      height: 100%;
+      display: flex;
+      animation: scrolling var(--marquee-animation-duration) linear infinite;
+    }
+    /* .marquee-content:hover {
+      animation-play-state: paused;
+    } */
+    @keyframes scrolling {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(
+          calc(-1 * var(--marquee-element-width) * var(--marquee-elements))
+        );
+      }
+    }
+    .marquee-content li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* text-align: center; */
+      flex-shrink: 0;
+      max-height: 100%;
+      padding: 0 3rem;
+      font-size: calc(var(--marquee-height) * 3 / 4); /* 5rem; */
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      html {
+        font-size: 12px;
+      }
+      :root {
+        --marquee-height: 30px;
+        --marquee-elements-displayed: 3;
+      }
+      .marquee:before,
+      .marquee:after {
+        width: 5rem;
+      }
+    }
+
+    .heading-secondary {
+      font-size: 5rem;
+      color: #36402c;
+      text-transform: uppercase;
+    }
+    .heading-secondary>span{
+      color: #98B66E;
+    }
+    .header-button{
+      -webkit-background-clip: text;
+      background: linear-gradient(to right, #ff7730, #eb4d4b);
+      color: white;
+      border:none;
+      transition: 80ms all ease-in;
+      padding: 1rem 2rem;
+      font-size: 1.8rem;
+      text-decoration: none;
+      border-radius: 1rem 1rem 0 1rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .header-button:hover {
+      color:white;
+    }
+    .header-button:active{
+      transform:scale(0.9);
+    }
+    .form__input {
+      display: block;
+      font-family: inherit;
+      font-size: 1.5rem;
+      color: inherit;
+      padding: 1.25rem 1.75rem;
+      border: none;
+      width: 100%;
+      background-color: #fff;
+      background-color: #f2f2f2;
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      border-radius: 4px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      /* Pseudo element (a visible thing that isn't really in the DOM).
+            Also needs -ms- */
+    }
+    .form__input:focus {
+      outline: none;
+      border-bottom: 3px solid #55c57a;
+    }
+    .form__input:focus:invalid {
+      border-bottom: 3px solid #ff7730;
+    }
+    .form__input::-webkit-input-placeholder {
+      color: #bbb;
+    }
+    .center{
+      grid-column: 2;
+      grid-row: 1;
+    }   
+    .form__group:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+    .form__label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    
+    @media only screen and (max-width: 1362px) {
+      .container{
+        width: 95%;
+        gap: 3rem;
+      }
+      .container__pay{
+        padding: 4rem 3rem;
+      }
+      .pay__content{
+        padding: 3rem;
+      }
+    }
+
+    @media only screen and (max-width: 1630px) {
+      html {
+         font-size: 55%;
+      }
+    }
+
+
+    @media only screen and (max-width: 1046px) {
+      .container{
+        grid-template-columns: 1fr 1fr;
+      }
+      .container__pay{
+        grid-template-columns: 1fr;
+        padding: 7rem 8rem
+      }
+      .pay__image>img{
+        border-radius: 15px 15px 0 0;
+      }
+      .pay__content{
+        border-radius: 0 0 0 15px;
+        align-items: center;
+      }
+    }
+   
+    @media only screen and (max-width:  824px) {
+      .post__page{
+        width: 90%;
+        height: auto;
+        padding: 4rem;
+      }
+    }
+
+ 
+    @media only screen and (max-width:  746px) {
+      .container{
+        grid-template-columns: 1fr;
+        width: 60%;
+        row-gap: 7rem;
+        padding: 2rem 0;
+      }
+      html {
+          font-size:45%;
+      }
+      .container__pay{
+        padding: 2rem 5rem
+      }
+    }
+
+    @media only screen and (max-width: 452px) {
+      .container{
+        width: 80%;
+      }
+      .heading-secondary{
+        font-size: 3.5rem;
+      }
+      .pay__content>p{
+        font-size: 1.8rem;
+      }
+      .header{
+        padding: 2rem 3rem;
+      }
+    }
+    @media only screen and (max-width: 370px){
+      .post__page>form{
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+      }
+      .form__input{
+        width: 90%;
+      }
+      .post__page > form > textarea{
+        width: 90%;
+      }
+    
+
+ 
+
+block content
+  - let i=0
+  if user
+    .container__overlay
+      .post__page
+        form(enctype="multipart/form-data")
+          label.form__label Naslov
+          input.form__input#title(type="text" name="title", aria-label="Title")
+          | *Naslov mora biti duzi od 10 slova
+          label.form__label Opis
+          textarea#description(name="description", cols="30", rows="10", style="resize:none;", aria-label="Description", maxlength="500")
+          p#words 500/500
+          | *Opis mora biti duzi od 50 slova
+          label.form__label Slika
+          input#image(type="file" name="imageCover" accept="image/*" , aria-label="Image")
+          button.button__post Objavi
+    header.header
+      a(href="/") 
+       img.header-logo(src='img/logo.webp', alt='Logo image')
+      .header__buttons
+        a.header-content(href='/me') 
+          img(src=`./img/${user.photo}`, alt="User photo")
+          p= user.name.split(' ')[0]
+    .container__pay#pay(data-observe='true')
+      .pay__image
+        img(src="/img/pay.webp",alt="Image of human planting a young tree") 
+      .pay__content 
+        h2.heading-secondary Izgradi 
+          |
+          |
+          span zeleniju 
+          |
+          |
+          |budućnost - sadnjom jednog drveta
+        p Pridružite se pokretu da pomognete u spasavanju planete i napravite razliku samo jednim jednostavnim činom. Doprinoseći našoj inicijativi za sadnju drveća, ne samo da ćete pomoći u borbi protiv klimatskih promena, već i stvoriti zeleniju budućnost za generacije koje dolaze. Vaša donacija će biti iskorišćena za sadnju drveta u određenom delu, gde će uzgajati i apsorbovati ugljen-dioksid, istovremeno obezbeđujući stanište za divlje životinje. Zašto onda ne napravite korak ka održiviju svetu i platite drvo danas?"
+        #paypal
+    .marquee
+      ul.marquee-content
+        li Zasadite svoje drvo od kuce
+        li Brzo i lako
+        li Jednim klikom
+        li Spasite planetu
+
+
+      
+
+    .container(data-observe='true')
+      if(posts[0])
+        each post in posts
+          a#card.container__card(href=`/post/${post._id}`)
+            img(src=`./img/${post.imageCover}`,alt=`${post.title}`)
+        #card.container__card-create
+          img(src='/img/plus-solid.svg', alt='Plus icon')
+      else
+        #card.container__card-create.center
+          img(src='/img/plus-solid.svg', alt='Plus icon')
+
+

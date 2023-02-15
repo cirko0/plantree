@@ -1,0 +1,470 @@
+extends base
+
+block append head
+  script(src='/js/me.js', defer, type='module') 
+  style(type='text/css').
+    .user-view {
+      background-color: #fff;
+      max-width: 120rem;
+      margin: 0 auto;
+      min-height: 100vh;
+      border-radius: 3px;
+      positon: relative;
+      overflow: hidden;
+      -webkit-box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.07);
+      box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.07);
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+    }
+    .user-view__menu {
+      -webkit-box-flex: 32rem;
+      -ms-flex: 32rem 0 0px;
+      flex: 32rem 0 0;
+      background-image: -webkit-gradient(linear, left top, right bottom, from(#7dd56f), to(#28b487));
+      background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
+      padding: 4rem 0;
+    }
+    .user-view__content {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      padding: 7rem 0;
+    }
+    .user-view__form-container {
+      max-width: 68rem;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .side-nav {
+      list-style: none;
+    }
+    .side-nav li {
+      margin: 1rem 0;
+      border-left: 0 solid #fff;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+    .side-nav--active,
+    .side-nav li:hover {
+      border-left: 4px solid #fff !important;
+    }
+    .side-nav--active a {
+      -webkit-transform: translateX(-3px);
+      transform: translateX(-3px);
+    }
+    .side-nav a:link,
+    .side-nav a:visited {
+      padding: 1rem 4rem;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      color: #fff;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      font-weight: 400;
+      text-decoration: none;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+    .side-nav a:hover,
+    .side-nav a:active {
+      -webkit-transform: translateX(3px);
+      transform: translateX(3px);
+    }
+    .side-nav img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 2.5rem;
+      fill: #f7f7f7;
+      margin-right: 2rem;
+    }
+
+    .admin-nav {
+      margin-top: 5.5rem;
+    }
+    .admin-nav__heading {
+      margin: 0 5rem 1.5rem 4rem;
+      padding-bottom: 3px;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      color: #f2f2f2;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .line {
+      margin: 6rem 0;
+      width: 100%;
+      height: 1px;
+      background-color: #e0e0e0;
+    }
+
+    .form__input {
+      display: block;
+      font-family: inherit;
+      font-size: 1.5rem;
+      color: inherit;
+      padding: 1.25rem 1.75rem;
+      border: none;
+      width: 100%;
+      background-color: #fff;
+      background-color: #f2f2f2;
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      border-radius: 4px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      /* Pseudo element (a visible thing that isn't really in the DOM).
+            Also needs -ms- */
+    }
+    .form__input:focus {
+      outline: none;
+      border-bottom: 3px solid #55c57a;
+    }
+    .form__input:focus:invalid {
+      border-bottom: 3px solid #ff7730;
+    }
+    .form__input::-webkit-input-placeholder {
+      color: #bbb;
+    }
+
+    .form__group:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+
+    .form__label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #36402c;
+    }
+
+    .form__photo-upload {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      font-size: 1.6rem;
+    }
+
+    .form__user-photo {
+      height: 7.5rem;
+      width: 7.5rem;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      margin-right: 2rem;
+    }
+
+    .form__upload {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .form__upload:focus + label {
+      outline: 3px solid #55c57a;
+      outline-offset: 3px;
+    }
+
+    .form__upload + label {
+      color: #55c57a;
+      display: inline-block;
+      text-decoration: none;
+      border-bottom: 1px solid #55c57a;
+      padding: 3px;
+      -webkit-transition: all 0.2s;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .form__upload + label:hover {
+      background-color: #55c57a;
+      color: #fff;
+      -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      -webkit-transform: translateY(-2px);
+      transform: translateY(-2px);
+    }
+
+    .heading-secondary {
+      font-size: 2.25rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #36402c;
+      letter-spacing: 0.1rem;
+      line-height: 1.3;
+      display: inline-block;
+    }
+
+    .ma-bt-md {
+      margin-bottom: 3rem !important;
+    }
+
+    .button--account {
+      background-color: #55c57a;
+      color: white;
+      cursor: pointer;
+    }
+
+    .button--account:hover {
+      background-color: #f2f2f2;
+      color: black;
+    }
+
+    .btn-text:link,
+    .btn-text:visited {
+      color: #55c57a;
+      display: inline-block;
+      text-decoration: none;
+      border-bottom: 1px solid #55c57a;
+      padding: 3px;
+      -webkit-transition: all 0.2s;
+      transition: all 0.2s;
+    }
+
+    .btn-text:hover {
+      background-color: #55c57a;
+      color: #fff;
+      -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      -webkit-transform: translateY(-2px);
+      transform: translateY(-2px);
+    }
+
+    .btn-text:active {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-text:focus {
+      outline: none;
+      outline: 3px solid #55c57a;
+      outline-offset: 3px;
+    }
+    body {
+      background: #36402c;
+    }
+    .right {
+      text-align: right !important;
+    }
+    .button__me {
+      border-radius: 20px;
+      border: 1px solid #98b66e;
+      background-color: #98b66e;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      width: auto;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 80ms ease-in;
+      cursor: pointer;
+    }
+    .button__me:active {
+      transform: scale(0.9);
+    }
+    .page__post-img-icon {
+      background-color: white;
+      padding: 4rem;
+      position: absolute;
+      border-radius: 50%;
+      top: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.1s transform linear;
+      cursor: pointer;
+      left: 8rem;
+    }
+
+    .page__post-img-icon > img {
+      height: 4rem;
+      color: #36402c;
+      position: absolute;
+    }
+
+    .page__post-img-icon:active {
+      transform: scale(0.9);
+    }
+    .header-button {
+      background: linear-gradient(to right, #ff7730, #eb4d4b);
+      text-decoration: none;
+      border-radius: 20px;
+      border: 1px solid #98b66e;
+      background-color: #98b66e;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      width: auto;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 80ms ease-in;
+      cursor: pointer;
+    }
+    .header-button:hover {
+      color: white;
+    }
+    .header-button:active {
+      transform: scale(0.9);
+    }
+    .btn__container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10rem;
+    }
+    @media only screen and (max-width: 972px) {
+      .page__post-img-icon {
+        left: 2rem;
+      }
+      .user-view__form-container {
+        margin-top: 10rem;
+      }
+    }
+    @media only screen and (max-width: 904px) {
+      .user-view__menu {
+        flex: 10rem 0 0;
+      }
+    }
+    @media only screen and (max-width: 379px) {
+      .user-view__form-container {
+        padding: 0 2rem;
+        text-align: center;
+      }
+      .form__photo-upload {
+        flex-direction: column;
+        align-items: start;
+        gap: 1rem;
+      }
+    }
+    @media only screen and (max-width: 482px) {
+      html {
+        font-size: 55%;
+      }
+    }
+
+mixin navItem(link, text, icon, active)
+  li(class=`${active ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+      img(src=`/img/${icon}.svg`, alt=`${icon} icon`)
+      | #{ text }
+
+block content
+  main.main
+    .user-view
+      //- nav.user-view__menu
+      //-   ul.side-nav
+      //-     +navItem('#', 'Settings', 'gear', true)
+      .user-view__content
+        a#back.page__post-img-icon(
+          href='/overview',
+          aria-label='Go back to overview page'
+        ) 
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          img(src='/img/arrow-left.svg', alt='Arrow-left icon')
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Podesi nalog
+
+          //- WITHOUT API
+          //- form.form.form-user-data(action='/submit-user-data' method='POST')
+
+          //- WITH API
+          form#form-update.form.form-user-data(enctype='multipart/form-data')
+            .form__group
+              label.form__label(for='name') Ime
+              input#name.form__input(
+                type='text',
+                value=`${user.name}`,
+                required,
+                name='name'
+              )
+            .form__group.ma-bt-md
+              label.form__label(for='email') Mail adresa
+              input#email.form__input(
+                type='email',
+                value=`${user.email}`,
+                required,
+                name='email'
+              )
+            .form__group.form__photo-upload
+              img.form__user-photo(src=`/img/${user.photo}`, alt='User photo')
+              input(
+                type='file',
+                name='photo',
+                accept='image/*',
+                aria-label='Image'
+              )
+            .form__group.right
+              button.button__me Sačuvaj podešavanja
+
+        .line &nbsp;
+
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Promeni lozinku
+          form#form-updatePassword.form.form-user-password
+            .form__group
+              label.form__label(for='password-current') Trenutna lozinka
+              input#password-current.form__input(
+                type='password',
+                placeholder='••••••••',
+                required,
+                minlength='8'
+              )
+            .form__group
+              label.form__label(for='password') Nova lozinka
+              input#password.form__input(
+                type='password',
+                placeholder='••••••••',
+                required,
+                minlength='8'
+              )
+            .form__group.ma-bt-lg
+              label.form__label(for='password-confirm') Potvrdi lozinku
+              input#password-confirm.form__input(
+                type='password',
+                placeholder='••••••••',
+                required,
+                minlength='8'
+              )
+            .form__group.right
+              button.btn--save-password.button__me Sačuvaj lozinku
+        .btn__container
+          button#logOutBtn.header-button
+            | Odjavi se

@@ -1,0 +1,355 @@
+extends base
+
+block append head
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer)  
+  script(src="/js/post.js", type='module', defer) 
+  style(type='text/css').
+    .page__post {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      transition: all 0.4s ease-in-out;
+    }
+    html{
+      overflow-x: hidden;
+    }
+    .page__post-img {
+      width: 100%;
+      height: 200%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .wrapper > h2 {
+      font-size: 7.2rem;
+      margin-bottom: 5rem;
+      position: absolute;
+      top: -4rem;
+      left: 10rem;
+      z-index: 24;
+      color: white;
+      text-shadow: 5px 5px 5px #36402c;
+    }
+    form{
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .page__post-img-icon {
+      background-color: white;
+      padding: 2rem;
+      position: absolute;
+      border-radius: 50%;
+      top: 4rem;
+      right: 8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.1s transform linear;
+      cursor: pointer;
+      z-index: 22;
+    }
+    .page__post-img-icon:nth-child(4) {
+      left: 8rem;
+      right: auto;
+    }
+    .page__post-img-icon > img {
+      height: 4rem;
+      color: #36402c;
+    }
+
+    .page__post-img-icon:active {
+      transform: scale(0.9);
+    }
+
+    .page__post-img > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .wrapper {
+      filter: drop-shadow(-5px -30px 30px rgba(0, 0, 0, 0.75));
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+    }
+    .page__post-content {
+      width: 100%;
+      padding-left: 7rem;
+      padding: 10rem;
+      display: flex;
+      background-color: #36402c;
+      color: white;
+      flex-direction: column;
+      justify-content: center;
+      clip-path: polygon(0 0, 100% 16%, 100% 100%, 0 100%);
+      position: relative;
+    }
+
+    .page__post-content-box > p {
+      font-size: 3rem;
+      word-break: break-all;
+      white-space: normal;
+    }
+
+    .page__post-content-box > i:active {
+      transform: scale(0.9);
+    }
+    .form__input {
+      display: block;
+      font-family: inherit;
+      font-size: 1.5rem;
+      color: inherit;
+      padding: 1.25rem 1.75rem;
+      border: none;
+      width: 100%;
+      background-color: #fff;
+      background-color: #f2f2f2;
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      border-radius: 4px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      /* Pseudo element (a visible thing that isn't really in the DOM).
+            Also needs -ms- */
+    }
+    .form__input:focus {
+      outline: none;
+      border-bottom: 3px solid #55c57a;
+    }
+    .form__input:focus:invalid {
+      border-bottom: 3px solid #ff7730;
+    }
+    .form__input::-webkit-input-placeholder {
+      color: #bbb;
+    }
+
+    .form__group:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+
+    .form__label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .form__photo-upload {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      font-size: 1.6rem;
+    }
+    .form__input {
+      background-color: white;
+      color: black;
+    }
+    .form {
+      width: 40%;
+      display: none;
+    }
+    .button__post {
+    border-radius: 20px;
+    border: 1px solid #98b66e;
+    background-color: #98b66e;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    width: auto;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 80ms ease-in;
+    cursor: pointer;
+    }
+    .button__post:active {
+    transform: scale(0.9);
+    }
+    .button__cancel{
+    border-radius: 20px;
+    border: 1px solid #98b66e;
+    background-color: #98b66e;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    width: auto;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 80ms ease-in;
+    cursor: pointer;
+    -webkit-background-clip: text;
+    background: linear-gradient(to right, #ff7730, #eb4d4b);
+    }
+    .button__cancel:active {
+    transform: scale(0.9);
+    }
+    .form__buttons{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .circle {
+      background-color: white;
+      padding: 2rem;
+      position: absolute;
+      border-radius: 50%;
+      top: 4rem;
+      right: 8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.1s transform linear;
+      cursor: pointer;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none; 
+      opacity: 0;
+      transition: 0.3s all ease-in-out;
+      background: linear-gradient(to right, #4facfe,#00f2fe);
+      color: white;
+    }
+    .circle-red{
+      background: linear-gradient(to right, #ff7730, #eb4d4b);
+      color: white;
+    }
+
+    .circle>img{
+      height: 4rem;
+    }
+    .active{
+      transform: translateX(-10rem);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .active-down{
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(9.5rem);
+    }
+    @media only screen and (max-width: 1206px){
+      .form{
+        width: 60%;
+      }
+    }
+    @media only screen and (max-width: 1024px){
+      .page__post-content{
+        padding: 8rem 5rem;
+      }
+      #postTitle{
+        left: 5rem;
+      }
+      .page__post-img-icon:nth-child(4) {
+        left: 5rem;
+      }
+      .active-down{
+        right: 5rem;
+        top: 4.5rem;
+      }
+      .active{
+        right: 5rem
+      }
+      .page__post-img-icon{
+        right: 5rem;
+      }
+      .active-down
+    }
+    @media only screen and (max-width: 818px){
+      #postTitle{
+        top: -2rem;
+      }
+    }
+    @media only screen and (max-width: 666px){
+      .form{
+        width: 100%;
+      }
+    }
+    @media only screen and (max-width: 462px){
+      .form__buttons{
+        flex-direction: column;
+      }
+      #postTitle{
+        top: -4rem;
+      }
+      .page__post-content{
+        clip-path: none;
+      }
+    }
+    @media only screen and (max-width: 360px){
+      #postTitle{
+        left: 50%;
+        top: -4rem;
+        transform: translateX(-50%);
+        line-height: 6rem;
+        text-align: center;
+      }
+      .wrapper{
+        bottom: auto;
+        top: 60%;
+      }
+      .page__post-img-icon:nth-child(2) {
+        left: 2rem;
+      }
+      .page__post-img-icon{
+        right: 2rem;
+      }
+      .active{
+        right: 2rem
+      }
+      .active-down{
+        right: 2rem
+      }
+     
+    }
+
+block content
+  if (user)
+    .page__post 
+      .page__post-img 
+        #menuPost.page__post-img-icon
+          img#menuPostBtn(src="/img/list-ul.svg", alt="Lits icon")
+        .circle#btnUpdate
+          img(src="/img/pen.svg", alt="")
+        .circle.circle-red#btnDelete
+          img(src="/img/trash.svg", alt="")
+
+        a#back.page__post-img-icon(href="/overview", aria-label="Go back to overview page") 
+          img(src="/img/arrow-left.svg", alt="Arrow-left icon")
+        img(src=`/img/${post.imageCover}` data-src=`/img/${post.imageCover}`, alt='')
+      .wrapper
+        h2#postTitle= post.title
+        .page__post-content
+          .page__post-content-box
+            p= post.description
+          form#form-update.form.form-user-data(enctype="multipart/form-data")
+                  label.form__label(for='Title') Naslov
+                  input#titlePost.form__input(
+                    type='text',
+                    value=`${post.title}`,
+                    required,
+                    name='title'
+                  )
+                  label.form__label(for='Description') Opis
+                  textarea#descriptionPost.form__input(
+                    style="height: 200px",
+                    required,
+                    name='description'
+                    maxlength='500'
+                  )=post.description
+                  p#words 500/500
+                  label.form__label(for='Title') Promeni sliku
+                  input.btn-text(type="file" name="imageCover" accept='image/*' , aria-label="Image")
+                  .form__buttons
+                    button.button__post Sačuvaj podešavanja
+                    a.button__cancel Otkaži 

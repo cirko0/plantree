@@ -1,0 +1,1961 @@
+doctype html 
+html(lang="en") 
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Plantree | #{ title }
+    //- script( src='./js/bundle.js', defer)
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.2/axios.min.js" defer)
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer)  
+    script( src='./js/script.js', defer, type="module")
+    style(type="text/css").
+      @import 'https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap';
+
+      *,
+      ::after,
+      ::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      html {
+        font-size: 62.5%;
+        height: 100%;
+        width: 100%;
+        font-family: 'Rubik', sans-serif;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      body {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        background-color: #eaf0e2;
+        position: relative;
+      }
+
+      .overflow {
+        overflow-y: hidden;
+      }
+
+      .button {
+        padding: 1.5rem 3rem;
+        font-size: 1.8rem;
+        text-decoration: none;
+        border-radius: 1rem 1rem 0 1rem;
+        border: solid white 2px;
+        position: relative;
+        transition: all 0.5s ease-in-out;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+      }
+
+      .lazy-img {
+        filter: blur(6px);
+      }
+
+      .button:hover {
+        background-color: white;
+        color: #36402c;
+      }
+
+      @media only screen and (max-width: 1630px) {
+        html {
+          font-size: 55%;
+        }
+      }
+
+      @media only screen and (max-width: 482px) {
+        html {
+          font-size: 45%;
+        }
+      }
+
+      .alert {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        z-index: 9999;
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 400;
+        text-align: center;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 1.6rem 15rem;
+        -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+        box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+      }
+      .alert--success {
+        background-color: #20bf6b;
+      }
+      .alert--error {
+        background-color: #eb4d4b;
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul .green-dark {
+        color: #36402c;
+        border: solid #36402c 2px;
+      }
+      ul .green-dark > span {
+        background-color: #36402c;
+      }
+      ul .green-dark:hover {
+        color: white;
+      }
+      ul .green {
+        color: white;
+        border: solid #98b66e 2px;
+      }
+      ul .green > span {
+        background-color: #98b66e;
+      }
+      ul .green:hover {
+        color: white;
+      }
+      ul .white {
+        color: #36402c;
+      }
+      ul .white:hover {
+        color: var(--c);
+      }
+      ul a {
+        text-decoration: none;
+      }
+      ul li {
+        --c: white;
+        color: var(--c);
+        font-size: 16px;
+        border: 2px solid var(--c);
+        border-radius: 15px 15px 0 15px;
+        padding: 1.5rem 3rem;
+        font-size: 1.8rem;
+        font-weight: bold;
+        font-family: sans-serif;
+        letter-spacing: 0.1em;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: 0.5s;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        text-decoration: none;
+      }
+
+      .header-content > img {
+        height: 5rem;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+        width: 5rem;
+      }
+
+      .header-content > p {
+        font-size: 2rem;
+        color: white;
+      }
+
+      ul li .up {
+        transform: translateY(0) scale(2);
+      }
+      ul li:hover {
+        color: #36402c;
+      }
+      ul li:hover span {
+        transform: translateY(0) scale(2);
+      }
+      ul li:hover .up {
+        transform: translateY(150%);
+      }
+      ul li span {
+        position: absolute;
+        width: 25%;
+        height: 100%;
+        background-color: var(--c);
+        background-color: white;
+        transform: translateY(150%);
+        border-radius: 50%;
+        left: calc((var(--n) - 1) * 25%);
+        transition: 0.5s;
+        transition-delay: calc((var(--n) - 1) * 0.1s);
+        z-index: -1;
+      }
+      ul li span:nth-child(1) {
+        --n: 1;
+      }
+      ul li span:nth-child(2) {
+        --n: 2;
+      }
+      ul li span:nth-child(3) {
+        --n: 3;
+      }
+      ul li span:nth-child(4) {
+        --n: 4;
+      }
+
+      @media only screen and (max-width: 482px) {
+        ul li {
+          border-radius: 10px 10px 0 10px;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        ul li {
+          border-radius: 10px 10px 0 10px;
+        }
+        ul li:hover {
+          color: white;
+        }
+        ul li span {
+          display: none;
+        }
+        .main__buttons .white {
+          background-color: white;
+          color: #36402c;
+        }
+        .main__buttons .white:hover {
+          color: #36402c;
+        }
+        .main__buttons .green {
+          background-color: #98b66e;
+        }
+        .main__buttons .green-dark:hover {
+          color: #36402c;
+        }
+        .main__buttons .green-empty {
+          background-color: transparent;
+        }
+      }
+
+      .hamburger {
+        padding: 15px 15px;
+        display: inline-block;
+        cursor: pointer;
+        transition-property: opacity, filter;
+        transition-duration: 0.15s;
+        transition-timing-function: linear;
+        font: inherit;
+        color: inherit;
+        text-transform: none;
+        background-color: transparent;
+        border: 0;
+        margin: 0;
+        overflow: visible;
+      }
+      .hamburger:hover {
+        opacity: 0.7;
+      }
+      .hamburger.is-active .hamburger-inner {
+        background-color: #ffffff;
+      }
+      .hamburger.is-active .hamburger-inner::after {
+        background-color: #ffffff;
+      }
+      .hamburger.is-active .hamburger-inner::before {
+        background-color: #ffffff;
+      }
+      .hamburger.is-active:hover {
+        opacity: 0.7;
+      }
+      .hamburger-box {
+        width: 40px;
+        height: 24px;
+        display: inline-block;
+        position: relative;
+      }
+      .hamburger-inner {
+        display: block;
+        top: 50%;
+        margin-top: -2px;
+        width: 40px;
+        height: 4px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        position: absolute;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease;
+        transition-duration: 0.22s;
+        transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      .hamburger-inner::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        position: absolute;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease;
+        bottom: -10px;
+      }
+      .hamburger-inner::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        position: absolute;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        top: -10px;
+        transition-timing-function: ease;
+      }
+      .hamburger--spin {
+        transition-duration: 0.22s;
+        transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      .hamburger--spin .hamburger-inner::before {
+        transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+      }
+      .hamburger--spin .hamburger-inner::after {
+        transition: bottom 0.1s 0.25s ease-in,
+          transform 0.22s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      .hamburger--spin.is-active .hamburger-inner {
+        transform: rotate(225deg);
+        transition-delay: 0.12s;
+        transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+      .hamburger--spin.is-active .hamburger-inner::before {
+        top: 0;
+        opacity: 0;
+        transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+      }
+      .hamburger--spin.is-active .hamburger-inner::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+        transition: bottom 0.1s ease-out,
+          transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .container__form {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 55;
+        position: fixed;
+        top: 0;
+        opacity: 0;
+        transition: all 0.4s ease-in-out;
+        pointer-events: none;
+      }
+
+      .container__form-active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        width: 768px;
+        max-width: 100%;
+        min-height: 580px;
+      }
+
+      .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+      }
+      .form-container > form {
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+        text-align: center;
+      }
+      .form-container > form > h1 {
+        font-weight: bold;
+        margin: 0;
+      }
+      .form-container > form > h2 {
+        text-align: center;
+      }
+      .form-container > form > p {
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 20px;
+        letter-spacing: 0.5px;
+        margin: 20px 0 30px;
+      }
+      .form-container > form > span {
+        font-size: 12px;
+      }
+      .form-container > form > a {
+        color: #333;
+        font-size: 14px;
+        text-decoration: none;
+        margin: 15px 0;
+      }
+      .form-container > form > button {
+        border-radius: 20px;
+        border: 1px solid #98b66e;
+        background-color: #98b66e;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+      }
+      .form-container > form > button.ghost {
+        background-color: transparent;
+        border-color: #ffffff;
+      }
+      .form-container > form > button:active {
+        transform: scale(0.95);
+      }
+      .form-container > form > button:focus {
+        outline: none;
+      }
+      .form-container > form > input {
+        background-color: #eee;
+        border: none;
+        padding: 12px 15px;
+        margin: 8px 0;
+        width: 100%;
+      }
+
+      .sign-in-container {
+        left: 0;
+        width: 50%;
+        z-index: 2;
+      }
+
+      .container.right-panel-active .sign-in-container {
+        transform: translateX(100%);
+      }
+
+      .sign-up-container {
+        left: 0;
+        width: 50%;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      .container.right-panel-active .sign-up-container {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+        animation: show 0.6s;
+      }
+
+      @keyframes show {
+        0%,
+        49.99% {
+          opacity: 0;
+          z-index: 1;
+        }
+        50%,
+        100% {
+          opacity: 1;
+          z-index: 5;
+        }
+      }
+
+      .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 100;
+      }
+
+      .container.right-panel-active .overlay-container {
+        transform: translateX(-100%);
+      }
+
+      .overlay {
+        background: #98b66d;
+        background: -webkit-linear-gradient(to right, #36402c, #98b66e);
+        background: linear-gradient(to right, #36402c, #98b66e);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0 0;
+        color: #ffffff;
+        position: relative;
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+      }
+
+      .container.right-panel-active .overlay {
+        transform: translateX(50%);
+      }
+
+      .overlay-panel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        text-align: center;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+      }
+      .overlay-panel > h1 {
+        font-weight: bold;
+        margin: 0;
+      }
+      .overlay-panel > p {
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 20px;
+        letter-spacing: 0.5px;
+        margin: 20px 0 30px;
+      }
+      .overlay-panel > button {
+        border-radius: 20px;
+        border: 1px solid #98b66e;
+        background-color: #98b66e;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+      }
+      .overlay-panel > button.ghost {
+        background-color: transparent;
+        border-color: #ffffff;
+      }
+      .overlay-panel > button:active {
+        transform: scale(0.95);
+      }
+      .overlay-panel > button:focus {
+        outline: none;
+      }
+
+      .overlay-left {
+        transform: translateX(-20%);
+      }
+
+      .container.right-panel-active .overlay-left {
+        transform: translateX(0);
+      }
+
+      .overlay-right {
+        right: 0;
+        transform: translateX(0);
+      }
+
+      .container.right-panel-active .overlay-right {
+        transform: translateX(20%);
+      }
+
+      @media only screen and (max-width: 834px) {
+        .container__form {
+          padding: 2rem;
+        }
+        .container {
+          height: 75rem;
+          width: 50rem;
+        }
+        .form-container {
+          width: 100%;
+          height: 50%;
+        }
+        .overlay {
+          height: 200%;
+          width: 100%;
+          left: 0;
+        }
+        .overlay-container {
+          height: 50%;
+          width: 100%;
+          bottom: 0;
+          top: auto;
+          background-color: black;
+        }
+        .overlay-right {
+          top: 0;
+        }
+        .overlay-panel {
+          height: 50%;
+          width: 100%;
+        }
+        .overlay-left {
+          transform: translateY(100%);
+        }
+        .overlay-container {
+          left: 0;
+        }
+        .container.right-panel-active .overlay-left {
+          transform: translateY(100%);
+        }
+        .container.right-panel-active .overlay-right {
+          transform: translateY(0);
+        }
+        .container.right-panel-active .overlay {
+          transform: translateY(-50%);
+        }
+        .container.right-panel-active .overlay-container {
+          transform: translateY(-100%);
+        }
+        .container.right-panel-active .sign-up-container {
+          transform: translateY(100%);
+          opacity: 1;
+          z-index: 5;
+          animation: show 0.6s;
+        }
+        .container.right-panel-active .sign-in-container {
+          transform: translateY(100%);
+        }
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 2rem 0;
+        position: fixed;
+        width: 100%;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+        top: 0;
+        z-index: 21;
+        background-color: #36402c;
+      }
+      .header > button {
+        display: none;
+      }
+      .header-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+      .header-nav > a {
+        text-decoration: none;
+        color: #f3f4f1;
+        font-size: 1.8rem;
+        position: relative;
+      }
+      .header-nav > a::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 0;
+        height: 2px;
+        transition: all 0.2s ease-in-out;
+        background-color: white;
+      }
+      .header-nav > a:hover::after {
+        width: 100%;
+      }
+      .header-button {
+        background-color: transparent;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .header-button:hover > img {
+        filter: opacity(0.9);
+      }
+
+      .header-button::after {
+        background-color: transparent;
+      }
+      .header-logo {
+        width: 6rem;
+        height: 6rem;
+        filter: invert(100%);
+      }
+      .header--mobile {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4rem;
+        position: fixed;
+        top: 0;
+        transform: translateX(100%);
+        background-color: #36402c;
+        z-index: 20;
+        transition: all 0.4s ease-in-out;
+      }
+      .header--mobile .header-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .header--mobile .header-nav > a {
+        font-size: 6rem;
+      }
+      .header--mobile > a {
+        font-size: 4rem;
+        display: block;
+      }
+
+      .open {
+        transform: translateX(0);
+      }
+
+      @media only screen and (max-width: 768px) {
+        .header-nav a:hover::after {
+          width: 0;
+        }
+        .button:hover {
+          background-color: transparent;
+          color: white;
+        }
+      }
+
+      @media only screen and (max-width: 634px) {
+        .header {
+          justify-content: space-between;
+          padding: 1rem 4rem;
+        }
+        .header-button {
+          display: none;
+        }
+        .header-nav {
+          display: none;
+        }
+        .header > button {
+          display: block;
+          z-index: 55;
+        }
+      }
+
+      .main {
+        background: linear-gradient(
+            0deg,
+            rgba(60, 60, 60, 0.4),
+            rgba(60, 60, 60, 0.4)
+          ),
+          url(../../img/hero.webp);
+        background-position: bottom;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5rem;
+      }
+      .main__heading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        width: 50%;
+        text-align: center;
+      }
+      .main__heading > h1 {
+        font-size: 5rem;
+        color: white;
+        font-weight: 500;
+      }
+      .main__heading > h1 > span {
+        color: #98b66d;
+      }
+      .main__heading > p {
+        font-size: 2rem;
+        color: white;
+      }
+      .main__buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5rem;
+      }
+
+      .intro {
+        transform: translateX(0);
+      }
+
+      @media only screen and (max-width: 1024px) {
+        .main {
+          padding: 0 5rem;
+        }
+        .main__heading {
+          width: 100%;
+        }
+      }
+
+      @media only screen and (max-width: 492px) {
+        .main__buttons {
+          flex-direction: column;
+          gap: 2rem;
+        }
+      }
+
+      .plants {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 13rem 6rem;
+        gap: 6rem;
+        background: url(../../img/wave.svg);
+        background-position: bottom;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .plants__heading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .plants__heading > h2 {
+        font-size: 4.8rem;
+        font-weight: 500;
+        color: white;
+      }
+      .plants__heading > p {
+        font-size: 1.8rem;
+        color: #c5c5c5;
+      }
+      .plants__users {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 4rem;
+        grid-template-rows: 1fr;
+      }
+      .plants__users-card {
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 33rem;
+        height: 50rem;
+        align-self: center;
+        justify-self: center;
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+          rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+      }
+      .plants__users-info {
+        padding: 3rem;
+      }
+      .plants__users-info > h3 {
+        font-size: 2rem;
+        color: black;
+        margin-bottom: 0.4rem;
+      }
+      .plants__users-info > p {
+        font-size: 1.8rem;
+        color: #98b66d;
+        margin-bottom: 2rem;
+      }
+      .plants__users-info > div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.4rem;
+        color: #98b66d;
+      }
+      .plants__users-info > div > img {
+        height:1.4rem;
+      }
+      .plants__users-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 0 0 15px 15px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .plants__users-img>img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      @media only screen and (max-width: 1630px) {
+        .plants__users {
+          row-gap: 4rem;
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media only screen and (max-width: 634px) {
+        .plants__users {
+          row-gap: 4rem;
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .line {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 8rem;
+      }
+      .line > p {
+        width: 40%;
+        background-color: #e2e9d8;
+        height: 2px;
+      }
+      .line > img {
+        height: 8rem;
+        width: auto;
+      }
+      .line:last-of-type {
+        margin-top: 0;
+        background-color: #36402c;
+      }
+      .line:last-of-type > p {
+        background-color: #394f25;
+      }
+
+      .how {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 6rem;
+        background: url(../../img/waveTurn.svg);
+        background-position: bottom;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding-top: 15rem;
+      }
+      .how__heading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      .how__heading > h2 {
+        font-size: 4.8rem;
+        color: #36402c;
+        font-weight: 500;
+      }
+      .how__heading > p {
+        font-size: 1.8rem;
+        color: #36402c;
+      }
+      .how__steps {
+        display: grid;
+        border-radius: 15px;
+        grid-template-columns: 1fr 1fr;
+        width: 60%;
+        padding: 4rem;
+        height: 70rem;
+        column-gap: 8rem;
+        background-color: #ffffff;
+      }
+      .how__steps > .img {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+          rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+          rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        border-radius: 15px;
+        width: 100%;
+        height: 120%;
+        overflow: hidden;
+      }
+
+      .how__steps > .img > img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+      .how__steps-content {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+      }
+      .how__steps-content > h2 {
+        color: #36402c;
+        font-weight: 500;
+        font-size: 4.8rem;
+        margin-bottom: 2rem;
+        text-align: left;
+      }
+      .how__steps-content > p {
+        font-size: 1.8rem;
+        color: #6b8949;
+        margin-bottom: 5rem;
+      }
+      .how__steps-content > ul > a > .green:hover {
+        color: #98b66e;
+      }
+      .how__steps-content-1 {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .how__steps-content-2 {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .how__steps-content-3 {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .how__steps-content-4 {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .how__steps-content--active {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+
+      .box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background: white;
+        align-self: center;
+        width: 80%;
+        border-radius: 20px;
+        box-shadow: 40px 0 65px rgba(212, 197, 186, 0.4);
+        box-sizing: border-box;
+        opacity: 1;
+        transform-origin: center;
+        transform: scale(1.2, 1.2);
+        margin-bottom: 10rem;
+        scale: 1;
+      }
+
+      .progress {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #e8dfd8;
+        width: 100%;
+        height: 3px;
+        border-radius: 10px;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+      }
+      .bar__fill {
+        display: block;
+        background: #98b66d;
+        height: 100%;
+      }
+
+      .point {
+        position: relative;
+        color: #ac9585;
+        cursor: pointer;
+      }
+      .point:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120px;
+        height: 120px;
+        border-radius: 100%;
+        transform: translate(-50%, -50%);
+        transition: 0.3s ease;
+      }
+      .show-radius .point:before {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      .point--complete,
+      .point--active {
+        color: #98b66d;
+      }
+
+      .bullet {
+        z-index: 1;
+        position: relative;
+        background: #ac9585;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        pointer-events: none;
+        transition: 0.3s ease;
+      }
+      .point--complete .bullet,
+      .point--active .bullet {
+        background: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 6px #98b66d;
+      }
+      .point--active .bullet {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 10px #98b66d;
+      }
+
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin: 20px 0 0 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        transform: translate(-50%, 0);
+      }
+
+      @media only screen and (max-width: 1630px) {
+        .how {
+          padding-left: 5rem;
+          padding-right: 5rem;
+        }
+        .how__steps {
+          width: 82%;
+          column-gap: 4rem;
+        }
+      }
+
+      @media only screen and (max-width: 1294px) {
+        .box {
+          margin-bottom: 4rem;
+        }
+        .how__steps {
+          height: 55rem;
+        }
+      }
+
+      @media only screen and (max-width: 1024px) {
+        .how__steps {
+          width: 100%;
+        }
+      }
+
+      @media only screen and (max-width: 830px) {
+        .box {
+          margin-top: 4rem;
+          margin-bottom: 8rem;
+          transform: scale(1, 1);
+        }
+        .how__steps {
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr 1fr;
+          row-gap: 2rem;
+          height: auto;
+          width: 100%;
+        }
+        .how__steps-content {
+          text-align: center;
+          align-items: center;
+        }
+        .how .img {
+          height: 100%;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        .how__steps-content > ul > a > .green:hover {
+          color: white;
+        }
+      }
+
+      @media only screen and (max-width: 482px) {
+        .how {
+          padding-left: 2.5rem;
+          padding-right: 2.5rem;
+        }
+        .how__steps {
+          padding-left: 2rem;
+          padding-right: 2rem;
+          padding-top: 3rem;
+          padding-bottom: 3rem;
+        }
+        .how__steps-content {
+          text-align: center;
+          align-items: center;
+        }
+        .how__steps-content>h2{
+          text-align: center;
+        }
+        .how .img {
+          height: 100%;
+        }
+      }
+
+      .stats {
+        width: 100%;
+        background-color: #36402c;
+        padding-bottom: 20rem;
+        padding-top: 20rem;
+      }
+      .stats__heading {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 0 auto;
+        margin-bottom: 6rem;
+      }
+      .stats__heading > h2 {
+        font-size: 4.8rem;
+        color: #ffffff;
+        font-weight: 500;
+      }
+      .stats__heading > p {
+        font-size: 1.8rem;
+        color: #ffffff;
+      }
+      .stats__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6rem;
+      }
+      .stats__content-numbers {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .stats__content-numbers > p {
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        background-image: linear-gradient(to bottom, #445c2d 50%, #374c24 50%);
+        border-radius: 15px;
+        padding: 2rem 2.5rem;
+        color: white;
+        font-size: 7rem;
+        width: 49rem;
+        letter-spacing: 4rem;
+      }
+
+      @media only screen and (max-width: 634px) {
+        .stats__content {
+          display: flex;
+          gap: 2rem;
+        }
+        .stats__content-numbers {
+          gap: 1rem;
+        }
+        .stats__content-numbers > p {
+          font-size: 4rem;
+          padding: 1rem auto;
+          width: 39rem;
+        }
+      }
+
+      @media only screen and (max-width: 482px) {
+        .stats__content-numbers > p {
+          border-radius: 5px;
+        }
+      }
+
+      @media only screen and (max-width: 378px) {
+        .stats{
+          padding: 20rem 1.8rem;
+        }
+        .stats__content-numbers > p {
+          font-size: 3.5rem;
+          padding: 1.5rem 2rem;
+          width: 36rem;
+        }
+      }
+
+      .footer {
+        width: 100%;
+        display: flex;
+        margin-top: -4rem;
+        flex-direction: column;
+        background: linear-gradient(
+            0deg,
+            rgba(60, 60, 60, 0.4),
+            rgba(60, 60, 60, 0.4)
+          ),
+          url(../../img/hero.webp);
+        background-position: top;
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-top: 10rem;
+        padding-bottom: 10rem;
+      }
+      .footer__container {
+        margin: 0 auto;
+        width: 80%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        row-gap: 4rem;
+      }
+      .footer__container-social {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        grid-column: 1/3;
+      }
+      .footer__container-social-button {
+        width: 5rem;
+        height: 5rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease-in-out;
+        border: white solid 1px;
+        border-radius: 15px 15px 0 15px;
+      }
+      .footer__container-social-button>img{
+        width: 2.5rem;
+        height: 2.5rem
+      }
+      .footer__container-social-button:hover{
+        background: #98B66E;
+        border-radius:50%;
+        border: #98B66E solid 1px;
+      }
+
+      .footer__container-copyright {
+        grid-column: 4;
+        align-self: center;
+      }
+      .footer__container-copyright > p {
+        font-size: 1.6rem;
+        color: #ffffff;
+      }
+      .footer__container-card {
+        display: flex;
+        justify-content: start;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .footer__container-card > h3 {
+        font-size: 1.8rem;
+        color: white;
+        margin-bottom: 2rem;
+      }
+      .footer__container-card > a {
+        font-size: 1.6rem;
+        text-decoration: none;
+        color: #c5c5c5;
+      }
+      .footer__container-card > a:hover {
+        color: white;
+      }
+      .footer__container-card:nth-of-type(3) {
+        grid-column: 4;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        .footer__container {
+          grid-template-columns: 1fr 1fr 1fr;
+          row-gap: 4rem;
+        }
+        .footer__container-copyright {
+          grid-column: 3;
+        }
+        .footer__container-card:nth-of-type(3) {
+          grid-column: 3;
+        }
+      }
+
+      @media only screen and (max-width: 634px) {
+        .footer__container {
+          grid-template-columns: 1fr 1fr;
+          row-gap: 6rem;
+        }
+        .footer__container-copyright {
+          align-self: center;
+          justify-self: center;
+          grid-row: 3;
+          grid-column: 1/3;
+        }
+        .footer__container-social {
+          grid-column: 2;
+          grid-row: 2;
+        }
+        .footer__container-card:nth-of-type(3) {
+          grid-column: 1;
+        }
+      }
+
+      @media only screen and (max-width: 384px) {
+        .footer__container {
+          grid-template-columns: 1fr;
+        }
+        .footer__container-copyright {
+          grid-column: 1;
+          grid-row: 5;
+          text-align: center;
+          align-self: center;
+          justify-self: center;
+        }
+        .footer__container-social {
+          grid-row: 4;
+          grid-column: 1;
+          align-self: center;
+          justify-self: center;
+        }
+        .footer__container-card {
+          align-self: center;
+          justify-self: center;
+          text-align: center;
+        }
+        #form-register{
+          padding: 2rem;
+        }
+        #form-login{
+          padding: 2rem;
+        }
+        .overlay-panel{
+          padding: 2rem;
+        }
+        .footer__container-card:nth-of-type(2) {
+          grid-row: 2;
+        }
+        .footer__container-card:nth-of-type(3) {
+          grid-row: 3;
+        }
+      }
+
+      .alert {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        z-index: 9999;
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 400;
+        text-align: center;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 1.6rem 15rem;
+        -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+        box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+      }
+      .alert--success {
+        background-color: #20bf6b;
+      }
+      .alert--error {
+        background-color: #eb4d4b;
+      }
+
+      .form__input {
+        display: block;
+        font-family: inherit;
+        font-size: 1.5rem;
+        color: inherit;
+        padding: 1.25rem 1.75rem;
+        border: none;
+        width: 100%;
+        background-color: #fff;
+        background-color: #f2f2f2;
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        /* Pseudo element (a visible thing that isn't really in the DOM).
+              Also needs -ms- */
+      }
+      .form__input:focus {
+        outline: none;
+        border-bottom: 3px solid #55c57a;
+      }
+      .form__input:focus:invalid {
+        border-bottom: 3px solid #ff7730;
+      }
+      .form__input::-webkit-input-placeholder {
+        color: #bbb;
+      }
+
+      .form__group:not(:last-child) {
+        margin-bottom: 2.5rem;
+      }
+
+      .form__label {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+
+      .form__photo-upload {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        font-size: 1.6rem;
+      }
+
+      .form__user-photo {
+        height: 7.5rem;
+        width: 7.5rem;
+        border-radius: 50%;
+        margin-right: 2rem;
+      }
+
+      .form__upload {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+
+      .form__upload:focus + label {
+        outline: 3px solid #55c57a;
+        outline-offset: 3px;
+      }
+
+      .form__upload + label {
+        color: #55c57a;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid #55c57a;
+        padding: 3px;
+        -webkit-transition: all 0.2s;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+      .form__upload + label:hover {
+        background-color: #55c57a;
+        color: #fff;
+        -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        -webkit-transform: translateY(-2px);
+        transform: translateY(-2px);
+      }
+
+      @media only screen and (max-width: 950px) {
+        .alert {
+          padding: 1.6rem 10rem;
+        }
+      }
+      @media only screen and (max-width: 632px) {
+        .alert {
+          width: 50%;
+          padding: 1.6rem 6rem;
+        }
+      }
+      @media only screen and (max-width: 632px) {
+        .alert {
+          width: 100%;
+          padding: 1.6rem 6rem;
+        }
+      }      
+
+  body
+    .container__form
+      #container.container
+        .form-container.sign-up-container
+          form#form-register(action='#')
+            h1 Napravi nalog
+            input.form__input#name-register(type='text', placeholder='Ime')
+            input.form__input#email-register(type='email', placeholder='Email')
+            input.form__input#password-register(type='password', placeholder='Sifra')
+            input.form__input#passwordConfirm-register(
+              type='password',
+              placeholder='Potvrdi sifru'
+            )
+            button#btn-sign-up Napravi nalog
+        .form-container.sign-in-container
+          form#form-login(action='#')
+            h1 Prijavi se
+            input.form__input#email-login(type='email', placeholder='Email')
+            input.form__input#password-login(type='password', placeholder='Sifra')
+            a(href='/forgotPassword') Zaboravio si lozinku?
+            button#btn-sign-in Prijavi se
+        .overlay-container
+          .overlay
+            .overlay-panel.overlay-left
+              h1 Dobrodosao nazad!
+              p Da biste bili povezani sa nama molimo vas da se prijavite sa svojim ličnim informacijama
+              button#signIn.ghost Prijavi se
+            .overlay-panel.overlay-right
+              h1 Zdravo!
+              p Unesite svoje lične detalje i započnite putovanje sa nama
+              button#signUp.ghost Napravi nalog
+    header.header--mobile
+      .header-nav
+        a(href='#main') Uvod
+        a(href='#plants') Najnovije
+        a(href='#how') Kako
+        a(href='#stats') Statistika
+        -if(user)
+          a#app(href='/overview') Aplikacija
+        -else
+          a#app(href='#') Aplikacija
+        if !user
+          a#header-btn-mobile.button.header-button(href='#', style="display: block;")
+            i.fa.fa-user
+            |
+            | Napravi nalog
+        else
+    header.header
+      img.header-logo(src='img/logo.webp', alt='Logo image')
+      .header-nav
+        a(href='#main') Uvod
+        a(href='#plants') Najnovije
+        a(href='#how') Kako
+        a(href='#stats') Statistika
+        -if(user)
+          a#app(href='/overview') Aplikacija
+        -else
+          a#app(href='#') Aplikacija
+      if !user
+        a#header-btn.button.header-button(href='#')
+          i.fa.fa-user
+          |
+          | Napravi nalog
+      else
+        a.header-content(href='/me') 
+          |
+          |
+          img(src=`./img/${user.photo}` alt="Photo of a user")
+          p= user.name.split(' ')[0]
+      button#hamburger.hamburger.hamburger--spin(type='button' aria-label="Hamburger")
+        span.hamburger-box
+        span.hamburger-inner
+    main#main.main
+      .main__heading
+        h1 Zasadi drvo
+          |
+          |
+          span &amp;
+          |
+          | spasi planetu
+        p
+          | Plantree je projekat koji okuplja ljude koji nisu ravnodu&scaron;ni prema
+          | sudbini na&scaron;e planete i &zcaron;eleli bi da nekako doprinesu pobolj&scaron;anju njene
+          | situacije. Jesi li ti jedan od njih?
+      ul.main__buttons
+        -if(user)
+          a(href='/overview')
+            li.white
+              | Zasadi drvo
+              span.up
+              span.up
+              span.up
+              span.up
+        -else
+          a(href='#')    
+            li.white
+              | Zasadi drvo
+              span.up
+              span.up
+              span.up
+              span.up
+        a(href='#how')
+          li
+            | Procitaj vise
+            span
+            span
+            span
+            span
+    section#plants.plants(data-observe='true')
+      .plants__heading
+        h2 Najnovije biljke
+        p Na&scaron;i korisnici su aktivno uklju&ccaron;eni u ovaj uzrok. Proverite njihove najnovije aktivnosti i zasadite sopstveno drvo
+      .plants__users
+        each activity in activities
+          .plants__users-card
+            .plants__users-img
+              img(src=`/img/${activity.photo}`, alt="Photo of a user")
+            .plants__users-info
+              h3= activity.name 
+              p= `Zasadio/la ${activity.title}` 
+              div
+                img(src="img/clock-regular.svg", alt="Clock icon")
+                - if(((Date.now()-activity.createdAt)/1000).toFixed(0)>60 && ((Date.now()-activity.createdAt)/1000/60).toFixed(0)<60)
+                  p=`${((Date.now()-activity.createdAt)/1000/60).toFixed(0)} minutes ago`
+                - else if(((Date.now()-activity.createdAt)/1000/60).toFixed(0)>60 && ((Date.now()-activity.createdAt)/1000/60/60).toFixed(0)<24) 
+                  p=`${((Date.now()-activity.createdAt)/1000/60/60).toFixed(0)} hours ago`
+                - else if(((Date.now()-activity.createdAt)/1000/60/60).toFixed(0)>24 && ((Date.now()-activity.createdAt)/1000/60/60/24).toFixed(0)<7)
+                  p=`${((Date.now()-activity.createdAt)/1000/60/60/24).toFixed(0)} days ago`
+                - else if(((Date.now()-activity.createdAt)/1000/60/60/24).toFixed(0)>7 &&  ((Date.now()-activity.createdAt)/1000/60/60/24/7).toFixed(0)<4.5)
+                  p=`${((Date.now()-activity.createdAt)/1000/60/60/24/7).toFixed(0)} weeks ago`
+                - else if(((Date.now()-activity.createdAt)/1000/60/60/24/7).toFixed(0)>4.5 && ((Date.now()-activity.createdAt)/1000/60/60/24/4.5).toFixed(0)>12)
+                  p=`${((Date.now()-activity.createdAt)/1000/60/60/24/4.5).toFixed(0)} months ago`
+                - else if(((Date.now()-activity.createdAt)/1000/60/60/24/4.5).toFixed(0)>12)
+                  p=`${((Date.now()-activity.createdAt)/1000/60/60/24/4.5/12).toFixed(0)} years ago`          
+                - else
+                  p=`${((Date.now()-activity.createdAt)/1000).toFixed(0)} seconds ago`
+      ul.main__buttons
+        -if(user)
+          a(href='/overview')
+            li.green-dark
+              | Zasadi drvo
+              span
+              span
+              span
+              span
+        -else
+          a(href='#')    
+            li.green-dark
+              | Zasadi drvo
+              span
+              span
+              span
+              span
+    #line1.line(data-observe='true')
+      p
+      img(src='img/tree.webp', alt='Tree emoji photo')
+      p
+    section#how.how(data-observe='true')
+      .how__heading
+        h2 Kako mo&zcaron;e&scaron; da zasadi&scaron; svoje drvo
+        p Sve &scaron;to treba da uradite je da preuzmete inicijativu u svoje ruke i napravite prvi korak da u&ccaron;estvujete u procesu le&ccaron;enja na&scaron;e planete
+      .how__steps
+        .img
+          img(src="/../img/step1.webp", alt="Images of steps to plant your first tree")
+        .how__steps-content
+          .box
+            .progress
+              .bar
+                .bar__fill(style='width: 0%')
+              .point.point--active(data-index='1')
+                .bullet
+              .point(data-index='2')
+                .bullet
+              .point(data-index='3')
+                .bullet
+              .point(data-index='4')
+                .bullet 
+          .how__steps-content.how__steps-content-1.how__steps-content--active
+            h2 Dubok koren, visoke grane
+            p Pre sadnje, va&zcaron;no je da budete sigurni da kopate rupu koja je dovoljno duboka i &scaron;iroka da drvo napreduje. Rupa bi trebalo da bude bar duplo ve&cacute;a od korena lopte drveta, i to jednako duboka. To &cacute;e korenima dati dovoljno prostora da rastu i uspostavljaju se, omogu&cacute;avaju&cacute;i drvetu da ima sna&zcaron;an temelj za budu&cacute;i rast.
+            ul.main__buttons
+              -if(user)
+                a(href='/overview')
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+              -else
+                a(href='#')    
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+          .how__steps-content.how__steps-content-2
+            h2 Koren sna&zcaron;an, stablo visoko
+            p Kada iskopate rupu, va&zcaron;no je da pravilno pripremite zemlji&scaron;te. To podrazumeva uklanjanje stena ili krhotina koje se mogu na&cacute;i u rupi, i olabaviti tlo na dnu kako bi se osiguralo da korenje mo&zcaron;e lako da se ra&scaron;iri i oja&ccaron;a. Ovaj korak je klju&ccaron;an za zdravlje i rast drveta.
+            ul.main__buttons
+              -if(user)
+                a(href='/overview')
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+              -else
+                a(href='#')    
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+          .how__steps-content.how__steps-content-3
+            h2 Sve po pravilu, stablo u redu
+            p Kada iskopate rupu, va&zcaron;no je da pravilno pripremite zemlji&scaron;te. To podrazumeva uklanjanje stena ili krhotina koje se mogu na&cacute;i u rupi, i olabaviti tlo na dnu kako bi se osiguralo da korenje mo&zcaron;e lako da se ra&scaron;iri i oja&ccaron;a. Ovaj korak je klju&ccaron;an za zdravlje i rast drveta.
+            ul.main__buttons
+              -if(user)
+                a(href='/overview')
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+              -else
+                a(href='#')    
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+          .how__steps-content.how__steps-content-4
+            h2 Navodnjavanje-klju&ccaron; uspeha
+            p Nakon sadnje, od su&scaron;tinskog je zna&ccaron;aja da drvo dobro zaliva. Ovo &cacute;e pomo&cacute;i da se zemlji&scaron;te sredi i uklone svi vazdu&scaron;ni d&zcaron;epovi koji su se mo&zcaron;da formirali oko korena. Tako&dstrok;e je va&zcaron;no da redovno zalivate svoje novo drvo kako biste bili sigurni da &cacute;e dobiti vlagu koja mu je potrebna da napreduje. Imajte na umu da je novosa&dstrok;enom drve&cacute;u potrebno vi&scaron;e vode nego etabliranom drve&cacute;u, pa obavezno proverite nivo vlage zemlji&scaron;ta &ccaron;esto tokom prve sezone rasta.
+            ul.main__buttons
+              -if(user)
+                a(href='/overview')
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+              -else
+                a(href='#')    
+                  li.green
+                    | Zasadi drvo
+                    span.up
+                    span.up
+                    span.up
+                    span.up
+    section#stats.stats(data-observe='true')
+      .stats__heading
+        h2 Drva zasa&dstrok;ena od strane korisnika Plantree
+          sup TM
+        p Kao &scaron;to vidite na&scaron;i korisnici su budni i aktivno u&ccaron;estvuju u globalnoj inicijativi zahvaljuju&cacute;i kojoj na&scaron;a planeta ima &scaron;ansu da pre&zcaron;ivi.
+      .stats__content
+        .stats__content-numbers
+          p#trees_planted 755935
+      ul.main__buttons
+        -if(user)
+          a(href='/overview')
+            li.green
+              | Zasadi drvo
+              span.up
+              span.up
+              span.up
+              span.up
+        -else
+          a(href='#')    
+            li.green
+              | Zasadi drvo
+              span.up
+              span.up
+              span.up
+              span.up
+        a(href='#footer')
+          li.green.green-empty
+            | Procitaj vise
+            span
+            span
+            span
+            span
+    .line
+      p
+      img.header-logo(src='img/logo.webp', alt='Logo image')
+      p
+    footer#footer.footer
+      .footer__container
+        .footer__container-card
+          h3 Navigacija
+          a(href='#main') Uvod
+          a(href='#plants') Najnovije
+          a(href='#how') Kako radi
+          a(href='#stats') Statistika
+        .footer__container-card
+          h3 Statistika
+          a(href='#') Najaktivniji korisnici
+          -if(user)
+            a#app(href='/me') Moj profil
+          -else
+            a#app(href='#') Moj profil
+          -if(user)
+            a#app(href='/overview') Moje biljke
+          -else
+            a#app(href='#') Moje biljke
+        .footer__container-card
+          h3 Procitaj vise
+          a(href='https://www.biljka.rs/', target='_blank') Vrste biljaka
+          a(
+            href='https://www.agroklub.rs/sumarstvo/9-razloga-zasto-saditi-drvece/32035/',
+            target='_blank'
+          ) Zasto trebas da nam se pridruzis
+          a(
+            href='https://lolamagazin.com/2017/04/13/12-nacina-kako-mozete-sacuvati-planetu-zemlju-zelite-li/',
+            target='_blank'
+          ) Nasa planeta
+        .footer__container-social
+          a.footer__container-social-button(
+            href='https://www.instagram.com/cirkoo0/',
+            target='_blank'
+          )
+            img(src="img/instagram.svg", alt="Instagram icon")
+          a.footer__container-social-button(href='#', target='_blank')
+            img(src="img/twitter.svg", alt="Twitter icon")
+          a.footer__container-social-button(
+            href='https://github.com/cirko0',
+            target='_blank'
+          )
+            img(src="img/github.svg", alt="Github icon")
+        .footer__container-copyright
+          p &copy;&#xFE0F; 2023. Ivan Cirkovic. All rights reserved.
+
